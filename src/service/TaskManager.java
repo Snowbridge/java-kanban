@@ -80,7 +80,7 @@ public class TaskManager {
         // если удалили эпик, то надо и сабтаски грохнуть
         if (task instanceof Epic) {
             tasksRepository.getSubtasks(uuid)
-                    .forEach(it->tasksRepository.removeTask(it.getUuid()));
+                    .forEach(it -> tasksRepository.removeTask(it.getUuid()));
         }
     }
 

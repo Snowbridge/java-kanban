@@ -18,7 +18,10 @@ public class MainMenu extends AbstractReplRunner {
                 new ListTasksMenu().run();
                 break;
             case 2:
+                new TaskCreationMenu().run();
+                break;
             case 3:
+
             case 4:
                 throw new RuntimeException("Not implemented yet");
         }

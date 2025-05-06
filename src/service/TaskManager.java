@@ -63,7 +63,7 @@ public class TaskManager {
                 tasksRepository.updateTask(parent);
             } else {
                 boolean anyInProgress = subtasks.stream()
-                        .anyMatch(it -> it.getStatus() == TaskStatus.IM_PROGRESS);
+                        .anyMatch(it -> it.getStatus() == TaskStatus.IM_PROGRESS || it.getStatus() == TaskStatus.DONE);
                 if (anyInProgress) {
                     parent.setStatus(TaskStatus.IM_PROGRESS);
                     tasksRepository.updateTask(parent);
@@ -75,13 +75,14 @@ public class TaskManager {
 
     public void removeTask(UUID uuid) {
         Task task = tasksRepository.getTask(uuid);
-        tasksRepository.removeTask(uuid);
 
         // если удалили эпик, то надо и сабтаски грохнуть
         if (task instanceof Epic) {
             tasksRepository.getSubtasks(uuid)
                     .forEach(it -> tasksRepository.removeTask(it.getUuid()));
         }
+        tasksRepository.removeTask(uuid);
+
     }
 
     public void clearTasks() {

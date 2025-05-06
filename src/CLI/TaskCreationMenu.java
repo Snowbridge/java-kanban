@@ -49,7 +49,7 @@ public class TaskCreationMenu extends AbstractReplRunner {
 
         String description = queryStringFromStdin("Введите описание подзадачи");
         Task task = taskManager.addTask(epic, name, description);
-        print("Создана подзадача с id " + task.getUuid());
+        println("Создана подзадача с id " + task.getUuid());
     }
 
     private void createNewEpic() {
@@ -60,7 +60,7 @@ public class TaskCreationMenu extends AbstractReplRunner {
 
         String description = queryStringFromStdin("Введите описание эпика");
         Epic epic = taskManager.addEpic(name, description);
-        print("Создан эпик с id " + epic.getUuid());
+        println("Создан эпик с id " + epic.getUuid());
     }
 
     private void createNewTask() {
@@ -71,6 +71,6 @@ public class TaskCreationMenu extends AbstractReplRunner {
 
         String description = queryStringFromStdin("Введите описание задачи");
         Task task = taskManager.addTask(name, description);
-        print("Создана задача с id " + task.getUuid());
+        println("Создана задача с id " + task.getUuid());
     }
 }

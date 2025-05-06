@@ -43,9 +43,9 @@ public abstract class AbstractReplRunner {
                     println("Не известная команда");
             } catch (InputMismatchException e) {
                 scanner.nextLine();
-                println("Введены не корректные данные");
+                println("❗Введены не корректные данные");
             } catch (Exception e) {
-                println(e.getMessage());
+                println("❗" + e.getMessage());
             }
         }
 

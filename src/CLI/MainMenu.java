@@ -6,8 +6,7 @@ public class MainMenu extends AbstractReplRunner {
                 new String[]{
                         "Просмотр задач",
                         "Создание задач",
-                        "Обновление задач",
-                        "Удаление задач",
+                        "Обновление/удаление задач"
                 });
     }
 
@@ -21,9 +20,8 @@ public class MainMenu extends AbstractReplRunner {
                 new TaskCreationMenu().run();
                 break;
             case 3:
-
-            case 4:
-                throw new RuntimeException("Not implemented yet");
+                new TaskUpdateMenu().run();
+                break;
         }
     }
 }

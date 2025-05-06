@@ -3,12 +3,12 @@ package CLI;
 import Entity.Task.Task;
 import Entity.Task.TaskStatus;
 import infrastructure.Configuration;
-import repository.TasksRepository;
+import service.TaskManager;
 
 import java.util.UUID;
 
 public class TaskUpdateMenu extends AbstractReplRunner {
-    private final TasksRepository tasksRepository;
+    private final TaskManager taskManager;
 
     public TaskUpdateMenu() {
         super(
@@ -16,10 +16,11 @@ public class TaskUpdateMenu extends AbstractReplRunner {
                 new String[]{
                         "Изменить статус задачи",
                         "Изменить реквизиты задачи",
-                        "Удалить задачу"
+                        "Удалить задачу по uuid",
+                        "Очистить список задач"
                 }
         );
-        tasksRepository = Configuration.getInstance().getTasksRepository();
+        taskManager = Configuration.getInstance().getTaskManager();
     }
 
     @Override
@@ -34,12 +35,19 @@ public class TaskUpdateMenu extends AbstractReplRunner {
             case 3:
                 removeTask();
                 break;
+            case 4:
+                clearTasks();
+                break;
         }
+    }
+
+    private void clearTasks() {
+        taskManager.clearTasks();
     }
 
     private void removeTask() {
         Task task = queryTask();
-        tasksRepository.removeTask(task.getUuid());
+        taskManager.removeTask(task.getUuid());
     }
 
     private void updateTaskData() {
@@ -47,24 +55,24 @@ public class TaskUpdateMenu extends AbstractReplRunner {
         String name = queryStringFromStdin("Введите новое имя");
         String description = queryStringFromStdin("Введите новое описание");
 
-        if(name != null && !name.isEmpty())
+        if (name != null && !name.isEmpty())
             task.setName(name);
-        if(description != null && !description.isEmpty())
+        if (description != null && !description.isEmpty())
             task.setDescription(description);
 
-        tasksRepository.updateTask(task);
+        taskManager.updateTask(task);
     }
 
     private void updateStatus() {
         Task task = queryTask();
 
         int statusNumber = queryIntFromStdin("Введите новый статус [1 - New, 2 - In progress, 3 - Done]", 1, 3);
-        task.setStatus(TaskStatus.values()[statusNumber]);
-        tasksRepository.updateTask(task);
+        task.setStatus(TaskStatus.values()[statusNumber - 1]);
+        taskManager.updateTask(task);
     }
 
-    private Task queryTask(){
+    private Task queryTask() {
         String uuid = queryStringFromStdin("Введите uuid задачи");
-        return tasksRepository.getTask(UUID.fromString(uuid));
+        return taskManager.getTask(UUID.fromString(uuid));
     }
 }

@@ -1,6 +1,9 @@
-public class Main {
+import CLI.MainMenu;
+import service.TaskGenerator;
 
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Поехали!");
+        TaskGenerator.generate();
+        new MainMenu().run();
     }
 }

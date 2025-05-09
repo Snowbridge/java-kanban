@@ -1,8 +1,8 @@
-package Entity.Task;
+package dto;
 
 public enum TaskStatus {
     NEW,
-    IM_PROGRESS,
+    IN_PROGRESS,
     DONE;
 
     @Override

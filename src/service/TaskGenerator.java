@@ -1,6 +1,6 @@
 package service;
 
-import Entity.Task.Epic;
+import dto.Epic;
 import infrastructure.Configuration;
 
 public class TaskGenerator {

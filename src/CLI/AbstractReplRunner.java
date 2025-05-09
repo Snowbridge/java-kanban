@@ -1,8 +1,8 @@
 package CLI;
 
-import Entity.Task.Epic;
-import Entity.Task.Subtask;
-import Entity.Task.Task;
+import dto.Epic;
+import dto.Subtask;
+import dto.Task;
 
 import java.util.*;
 
@@ -95,16 +95,16 @@ public abstract class AbstractReplRunner {
         // Сначала выведем все свободные таски
         taskList.stream()
                 .filter(it -> !(it instanceof Epic || it instanceof Subtask))
-                .forEach(it -> print(String.format(patternTask, it.getUuid(), it.getStatus(), it.icon(), it.getName(), it.getDescription())));
+                .forEach(it -> print(String.format(patternTask, it.getUuid(), it.getStatus(), it.getIcon(), it.getName(), it.getDescription())));
 
         // потом эпики и под эпиками их сабтаски
         taskList.stream()
                 .filter(it -> it instanceof Epic)
                 .forEach(it -> {
-                    print(String.format(patternTask, it.getUuid(), it.getStatus(), it.icon(), it.getName(), it.getDescription()));
+                    print(String.format(patternTask, it.getUuid(), it.getStatus(), it.getIcon(), it.getName(), it.getDescription()));
                     taskList.stream()
                             .filter(st -> st instanceof Subtask subtask && subtask.getParent() == it)
-                            .forEach(subtask -> print(String.format(patternSubtask, subtask.getUuid(), subtask.getStatus(), subtask.icon(), subtask.getName(), subtask.getDescription())));
+                            .forEach(subtask -> print(String.format(patternSubtask, subtask.getUuid(), subtask.getStatus(), subtask.getIcon(), subtask.getName(), subtask.getDescription())));
                 });
     }
 

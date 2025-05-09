@@ -1,7 +1,7 @@
 package CLI;
 
-import Entity.Task.Epic;
-import Entity.Task.Task;
+import dto.Epic;
+import dto.Task;
 import infrastructure.Configuration;
 import service.TaskManager;
 

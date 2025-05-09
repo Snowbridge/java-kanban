@@ -1,4 +1,4 @@
-package Entity.Task;
+package dto;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -8,16 +8,18 @@ public class Task {
     private String name;
     private String description;
     private TaskStatus status;
+    protected String icon;
 
     public Task(String name, String description) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.status = TaskStatus.NEW;
+        this.icon = "✅";
     }
 
-    public String icon() {
-        return "✅";
+    public String getIcon() {
+        return icon;
     }
 
     public UUID getUuid() {

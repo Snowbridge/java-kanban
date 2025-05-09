@@ -1,7 +1,7 @@
 package CLI;
 
-import Entity.Task.Task;
-import Entity.Task.TaskStatus;
+import dto.Task;
+import dto.TaskStatus;
 import infrastructure.Configuration;
 import service.TaskManager;
 

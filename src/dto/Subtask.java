@@ -1,4 +1,4 @@
-package Entity.Task;
+package dto;
 
 public class Subtask extends Task {
     private final Epic parent;
@@ -6,14 +6,11 @@ public class Subtask extends Task {
     public Subtask(Epic parent, String name, String description) {
         super(name, description);
         this.parent = parent;
+        this.icon = "✔️";
     }
 
     public Epic getParent() {
         return parent;
     }
 
-    @Override
-    public String icon() {
-        return "✔️";
-    }
 }

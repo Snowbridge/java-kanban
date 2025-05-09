@@ -1,9 +1,9 @@
 package repository.impl;
 
-import Entity.Task.Epic;
-import Entity.Task.Subtask;
-import Entity.Task.Task;
-import Entity.Task.TaskStatus;
+import dto.Epic;
+import dto.Subtask;
+import dto.Task;
+import dto.TaskStatus;
 import repository.TasksRepository;
 
 import java.util.*;
@@ -18,26 +18,22 @@ public class InMemoryTaskRepository implements TasksRepository {
 
     @Override
     public void addTask(Task task) {
-        if (tasks.containsKey(task.getUuid())) {
-            throw new IllegalArgumentException("Task already exists");
-        }
-
-        if (task instanceof Subtask) {
-            UUID parentUuid = ((Subtask) task).getParent().getUuid();
-            if (!tasks.containsKey(parentUuid)) {
-                throw new IllegalArgumentException("Parent task does not exist");
-            }
-        }
-
         tasks.put(task.getUuid(), task);
     }
 
     @Override
     public Task getTask(UUID uuid) {
-        if (!tasks.containsKey(uuid)) {
-            throw new IllegalArgumentException("Task does not exist");
-        }
         return tasks.get(uuid);
+    }
+
+    @Override
+    public boolean containsTask(Task task) {
+        return containsTask(task.getUuid());
+    }
+
+    @Override
+    public boolean containsTask(UUID uuid) {
+        return tasks.containsKey(uuid);
     }
 
     @Override
@@ -55,10 +51,6 @@ public class InMemoryTaskRepository implements TasksRepository {
 
     @Override
     public List<Subtask> getSubtasks(UUID epicUuid) {
-        if (!tasks.containsKey(epicUuid)) {
-            throw new IllegalArgumentException("Epic does not exist");
-        }
-
         Epic epic = (Epic) tasks.get(epicUuid);
         return tasks.values()
                 .stream()
@@ -69,9 +61,6 @@ public class InMemoryTaskRepository implements TasksRepository {
 
     @Override
     public void updateTask(Task task) {
-        if (!tasks.containsKey(task.getUuid())) {
-            throw new IllegalArgumentException("Task does not exist");
-        }
         tasks.put(task.getUuid(), task);
     }
 
@@ -84,6 +73,4 @@ public class InMemoryTaskRepository implements TasksRepository {
     public void clearTasks() {
         tasks.clear();
     }
-
-
 }

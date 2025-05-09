@@ -1,9 +1,9 @@
 package service;
 
-import Entity.Task.Epic;
-import Entity.Task.Subtask;
-import Entity.Task.Task;
-import Entity.Task.TaskStatus;
+import dto.Epic;
+import dto.Subtask;
+import dto.Task;
+import dto.TaskStatus;
 import repository.TasksRepository;
 
 import java.util.List;
@@ -29,12 +29,19 @@ public class TaskManager {
     }
 
     public Subtask addTask(Epic parent, String name, String description) {
+        if(!tasksRepository.containsTask(parent)){
+            throw new IllegalArgumentException("Parent task does not exist");
+        }
+
         Subtask subtask = new Subtask(parent, name, description);
         tasksRepository.addTask(subtask);
         return subtask;
     }
 
     public Task getTask(UUID uuid) {
+        if (!tasksRepository.containsTask(uuid)) {
+            throw new IllegalArgumentException("Task does not exist");
+        }
         return tasksRepository.getTask(uuid);
     }
 
@@ -47,10 +54,17 @@ public class TaskManager {
     }
 
     public List<Subtask> getSubtasks(UUID epicUuid) {
+        if (!tasksRepository.containsTask(epicUuid)) {
+            throw new IllegalArgumentException("Epic does not exist");
+        }
         return tasksRepository.getSubtasks(epicUuid);
     }
 
     public void updateTask(Task task) {
+        if (!tasksRepository.containsTask(task)) {
+            throw new IllegalArgumentException("Task does not exist");
+        }
+
         if (task instanceof Subtask subtask) {
             Epic parent = (Epic) tasksRepository.getTask(subtask.getParent().getUuid());
             List<Subtask> subtasks = tasksRepository.getSubtasks(parent.getUuid());
@@ -63,9 +77,9 @@ public class TaskManager {
                 tasksRepository.updateTask(parent);
             } else {
                 boolean anyInProgress = subtasks.stream()
-                        .anyMatch(it -> it.getStatus() == TaskStatus.IM_PROGRESS || it.getStatus() == TaskStatus.DONE);
+                        .anyMatch(it -> it.getStatus() == TaskStatus.IN_PROGRESS || it.getStatus() == TaskStatus.DONE);
                 if (anyInProgress) {
-                    parent.setStatus(TaskStatus.IM_PROGRESS);
+                    parent.setStatus(TaskStatus.IN_PROGRESS);
                     tasksRepository.updateTask(parent);
                 }
             }

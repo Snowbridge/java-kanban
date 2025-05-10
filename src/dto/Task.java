@@ -4,14 +4,19 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Task {
-    private final UUID uuid;
+    private static int taskIdCounter = 0;
+    private static int nextId(){
+        return ++taskIdCounter;
+    }
+
+    private final int id;
     private String name;
     private String description;
     private TaskStatus status;
     protected String icon;
 
     public Task(String name, String description) {
-        this.uuid = UUID.randomUUID();
+        this.id = Task.nextId();
         this.name = name;
         this.description = description;
         this.status = TaskStatus.NEW;
@@ -22,8 +27,8 @@ public class Task {
         return icon;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -55,11 +60,11 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(uuid, task.uuid);
+        return Objects.equals(id, task.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uuid);
+        return Objects.hashCode(id);
     }
 }

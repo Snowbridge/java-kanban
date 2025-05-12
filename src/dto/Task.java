@@ -18,6 +18,14 @@ public class Task {
         this.icon = "✅";
     }
 
+    public Task(UUID uuid, String name, String description) {
+        this.uuid = uuid;
+        this.name = name;
+        this.description = description;
+        this.status = TaskStatus.NEW;
+        this.icon = "✅";
+    }
+
     public String getIcon() {
         return icon;
     }

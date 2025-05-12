@@ -46,33 +46,31 @@ public class TaskUpdateMenu extends AbstractReplRunner {
     }
 
     private void removeTask() {
-        Task task = queryTask();
-        taskManager.removeTask(task.getUuid());
+        UUID uuid = queryTaskUuidFromStdin();
+        taskManager.removeTask(uuid);
     }
 
     private void updateTaskData() {
-        Task task = queryTask();
+        UUID uuid = queryTaskUuidFromStdin();
         String name = queryStringFromStdin("Введите новое имя");
         String description = queryStringFromStdin("Введите новое описание");
 
-        if (name != null && !name.isEmpty())
-            task.setName(name);
-        if (description != null && !description.isEmpty())
-            task.setDescription(description);
+        Task task = new Task(uuid, name, description);
 
         taskManager.updateTask(task);
     }
 
     private void updateStatus() {
-        Task task = queryTask();
+        UUID uuid = queryTaskUuidFromStdin();
+        Task task = taskManager.getTask(uuid);
 
         int statusNumber = queryIntFromStdin("Введите новый статус [1 - New, 2 - In progress, 3 - Done]", 1, 3);
         task.setStatus(TaskStatus.values()[statusNumber - 1]);
         taskManager.updateTask(task);
     }
 
-    private Task queryTask() {
+    private UUID queryTaskUuidFromStdin() {
         String uuid = queryStringFromStdin("Введите uuid задачи");
-        return taskManager.getTask(UUID.fromString(uuid));
+        return UUID.fromString(uuid);
     }
 }
